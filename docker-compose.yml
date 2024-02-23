@@ -1,0 +1,35 @@
+services:
+  auth:
+    build:
+      context: auth-service
+      dockerfile: Dockerfile
+    restart: always
+    network_mode: bridge
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 8080:8080
+  mongo:
+    image: mongo
+    container_name: 'mongo-local'
+    restart: always
+    network_mode: bridge
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 17017:27017
+    volumes:
+      - ./.docker/mongodb/data/:/etc/mongo
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq-local'
+    restart: always
+    network_mode: bridge
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./.docker/rabbitmq/data/:/var/lib/rabbitmq/
+      - ./.docker/rabbitmq/log/:/var/log/rabbitmq
