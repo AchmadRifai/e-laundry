@@ -3,6 +3,9 @@ services:
     build:
       context: auth-service
       dockerfile: Dockerfile
+    depends_on:
+      - mongo
+      - rabbitmq
     restart: always
     network_mode: bridge
     extra_hosts:
